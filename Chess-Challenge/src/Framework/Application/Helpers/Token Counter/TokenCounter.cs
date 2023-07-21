@@ -39,12 +39,12 @@ namespace ChessChallenge.Application
 
             if (syntaxNode.IsToken && !tokensToIgnore.Contains(kind))
             {
-                //Console.WriteLine(kind + "  " + syntaxNode.ToString());
+                // System.Console.WriteLine(kind + "  " + syntaxNode.ToString() + " " + syntaxNode.AsToken().ValueText);
 
-                // String literals count for as many chars as are in the string
-                if (kind is SyntaxKind.StringLiteralToken or SyntaxKind.InterpolatedStringTextToken)
+                // String literals count for as many chars as are in the string plus one (so that for example an empty string counts as one token)
+                if (kind is SyntaxKind.StringLiteralToken or SyntaxKind.InterpolatedStringTextToken or SyntaxKind.MultiLineRawStringLiteralToken)
                 {
-                    return syntaxNode.ToString().Length;
+                    return syntaxNode.AsToken().ValueText.Length + 1;
                 }
 
                 // Regular tokens count as just one token
